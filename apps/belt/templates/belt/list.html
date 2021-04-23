@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        table, tr, th{
+            border: 1px solid black;
+
+        }
+    
+    
+    </style>
+
+
+</head>
+<body>
+
+        <div class = 'header'>
+                <h1>Welcome {{firstname}}</h1>
+        
+                <h2>Log in Successfully</h2>
+
+                <h2>Everyone's Jobs:</h2>
+
+                <table style="width:100%">
+                        <tr>
+                          <th>Job</th>
+                          <th>Location</th> 
+                          <th>Action</th>
+                        </tr>
+
+                        {% for get_job in all_jobs %}
+
+                            <tr>
+                                <th>{{get_job.job}}</th>
+                                <th>{{get_job.location}}</th> 
+                                <th>
+                                        <form action = "/jobs/{{get_job.id}}" method = "post">
+                                            {% csrf_token %}
+                                            <button>View</button>
+                                            <input type = "hidden" name = "userId" value = "{{id}}">
+                                        </form>
+                                        <!-- <form action = "/jobs/new" method = "post">
+                                            {% csrf_token %}
+                                        <button>Add</button> -->
+                                        </form>
+                                        {%if get_job.user.id == id %}
+                                        <form action = "/jobs/delete/{{get_job.id}}" method = "post">
+                                            {% csrf_token %}
+                                            <button>Delete</button>
+                                        </form>
+                                        <form action = "/jobs/edit/{{get_job.id}}" method = "post">
+                                            {% csrf_token %}
+                                            <button>Edit</button>
+                                        </form>
+                                        {% endif %}
+                                       
+
+                                </th>
+                            </tr>
+
+                        {% endfor %}
+
+
+
+                </table>
+
+                <form action = "/jobs/new" method = "post">
+                    {% csrf_token %}
+                <button>New Job!</button>
+                </form>
+        
+                <form action = "/logout" method = "POST">
+                {% csrf_token %}
+                <button>Log Out</button>
+                </form>
+        </div>
+        
+    
+</body>
+</html>
